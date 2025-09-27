@@ -2,11 +2,13 @@ source "https://rubygems.org"
 ruby "3.4.5"
 
 gem "rails", "8.0.2"
-gem "puma", "5.0"
+gem "puma", "~> 6.0"
 gem "mongoid", "~> 8.0"      # Mongoid ODM (verify latest compatible version)
 gem "redis"
 gem "sidekiq"                # background jobs (optional)
 gem "rack-cors"
 gem 'bootsnap', '>= 1.18.0', require: false
+gem "ostruct"
+
 
 # add jwt or another auth gem if you plan token auth

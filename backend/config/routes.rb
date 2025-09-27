@@ -7,4 +7,11 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  get '/test_controller', to: 'test#index'
+  
+  mount ActionCable.server => '/cable'
+
+
+  
 end
