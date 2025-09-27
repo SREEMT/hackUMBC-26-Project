@@ -73,7 +73,8 @@ Global user profile, no fixed roles.
 
 - ```events```
 - Event-level details.
-```json
+```
+json
 Copy code
 {
   "_id": ObjectId,
@@ -84,11 +85,13 @@ Copy code
   "guestLimit": Number,
   "guestPassesAllowed": Number,
   "createdAt": Date
-}```
+}
+```
 
 - ```event_roles```
 - Links users to events with roles.
-```json
+```
+json
 Copy code
 {
   "_id": ObjectId,
@@ -97,11 +100,13 @@ Copy code
   "role": "organizer" | "bouncer" | "attendee" | "performer",
   "permissions": [ "checkIn", "flagGuests", "manageEvent" ],
   "createdAt": Date
-}```
+}
+```
 
 - ```attendees```
 - Tracks event participation and screening.
-```json
+```
+json
 Copy code
 {
   "_id": ObjectId,
@@ -113,11 +118,13 @@ Copy code
     { "by": ObjectId, "text": String, "createdAt": Date }
   ],
   "createdAt": Date
-}```
+}
+```
 
 - ```organizer_attendee_status```
 - Organizer-specific bans and flags across events.
-```json
+```
+json
 Copy code
 {
   "_id": ObjectId,
@@ -128,11 +135,13 @@ Copy code
     { "by": ObjectId, "text": String, "createdAt": Date }
   ],
   "updatedAt": Date
-}```
+}
+```
 
 - ```performers```
 - Optional performer/DJ profiles.
-```json
+```
+json
 Copy code
 {
   "_id": ObjectId,
@@ -140,7 +149,8 @@ Copy code
   "portfolio": String, // link or JSON
   "genres": [String],
   "availability": [Date]
-}```
+}
+```
 
 - Database Relationships
  ```users
