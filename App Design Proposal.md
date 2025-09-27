@@ -60,7 +60,7 @@ v |
 
 ### `users`
 Global user profile, no fixed roles.
-```json
+```
 {
   "_id": ObjectId,
   "name": String,
@@ -74,8 +74,6 @@ Global user profile, no fixed roles.
 - ```events```
 - Event-level details.
 ```
-json
-Copy code
 {
   "_id": ObjectId,
   "name": String,
@@ -91,8 +89,6 @@ Copy code
 - ```event_roles```
 - Links users to events with roles.
 ```
-json
-Copy code
 {
   "_id": ObjectId,
   "eventId": ObjectId, // ref: events
@@ -106,8 +102,6 @@ Copy code
 - ```attendees```
 - Tracks event participation and screening.
 ```
-json
-Copy code
 {
   "_id": ObjectId,
   "eventId": ObjectId, // ref: events
@@ -124,8 +118,6 @@ Copy code
 - ```organizer_attendee_status```
 - Organizer-specific bans and flags across events.
 ```
-json
-Copy code
 {
   "_id": ObjectId,
   "organizerId": ObjectId, // ref: users
@@ -141,8 +133,6 @@ Copy code
 - ```performers```
 - Optional performer/DJ profiles.
 ```
-json
-Copy code
 {
   "_id": ObjectId,
   "userId": ObjectId, // ref: users
@@ -153,7 +143,8 @@ Copy code
 ```
 
 - Database Relationships
- ```users
+ ```
+users
    |
    | 1--* (has roles in events)
    v
