@@ -9,6 +9,7 @@ gem "sidekiq"                # background jobs (optional)
 gem "rack-cors"
 gem 'bootsnap', '>= 1.18.0', require: false
 gem "ostruct"
+gem "httparty"
 
 
 # add jwt or another auth gem if you plan token auth
