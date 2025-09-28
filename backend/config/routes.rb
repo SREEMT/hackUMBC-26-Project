@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   get '/test_controller', to: 'test#index'
+  get "/num_controller", to: "num#index"
   
   mount ActionCable.server => '/cable'
 

@@ -40,6 +40,7 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const [message, setMessage] = useState('');
+  const [number, setNumber] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:3000/test_controller')
@@ -51,12 +52,28 @@ function App() {
       .catch(err => console.error(err));
   }, []);
 
+  const fetchRandomNumber = () => {
+    fetch('http://localhost:3000/num_controller')
+      .then(res => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+      })
+      .then(data => setNumber(data.number))
+      .catch(err => console.error(err));
+  };
+
   return (
     <div>
       <h1>React + Rails API Test</h1>
       <p>{message}</p>
+
+      <button onClick={fetchRandomNumber}>
+        Get Random Number
+      </button>
+      {number !== null && <p>Random Number: {number}</p>}
     </div>
   );
 }
+
 
 export default App;
