@@ -22,7 +22,7 @@ app.use(session({
 app.use(express.static('public_html'));
 
 // User Actions
-const UserCont = require("./controller/UserController");
+const UserCont = require("./mongo_setup/controller/UserController");
 app.post('/user', UserCont.postCreateOrUpdate); // register new user
 app.get('/user', UserCont.getAll);
 app.post('/loginuser', UserCont.login); // login user
