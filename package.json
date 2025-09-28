@@ -8,5 +8,17 @@
     "memorystore": "^1.6.7",
     "mongoose": "^8.18.2",
     "morgan": "^1.10.1"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "<rootDir>/view/"
+    ]
+  },
+  "scripts": {
+    "test": "jest",
+    "coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0"
   }
 }
