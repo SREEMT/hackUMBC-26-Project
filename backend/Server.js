@@ -1,4 +1,6 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') });
+
 
 const dbcon = require('./mongo_setup/models/DbConnection');
 dbcon.connect(); // Connect to MongoDB when starting the server.
