@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const dbcon = require('./model/DbConnection');
+const dbcon = require('./mongo_setup/models/DbConnection');
 dbcon.connect(); // Connect to MongoDB when starting the server.
 
 const ExpressApp = require('./App');
