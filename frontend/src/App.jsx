@@ -62,6 +62,20 @@ function App() {
       .catch(err => console.error(err));
   };
 
+  const fetchImage = () => {
+    fetch('http://localhost:3000/image_controller')
+      .then(res => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+      })
+      .then(data => {
+        const img = document.createElement('img');
+        img.src = data.image_url
+        document.body.appendChild(img);
+      })
+      .catch(err => console.error(err));
+  };
+
   return (
     <div>
       <h1>React + Rails API Test</h1>
@@ -71,6 +85,10 @@ function App() {
         Get Random Number
       </button>
       {number !== null && <p>Random Number: {number}</p>}
+
+      <button onClick={fetchImage}>
+        Fetch and Display Image
+      </button>
     </div>
   );
 }
