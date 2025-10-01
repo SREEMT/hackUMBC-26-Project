@@ -22,7 +22,7 @@ describe("Users DAO integration", () => {
     await dbcon.disconnect();
   });
 
-  test("should create and delete a user", async () => {
+  test("Create and delete a user", async () => {
     await usersDao.deleteAll();
 
     const newUser = { login: 'test_user@example.com', password: 'plaintext', permission: 2 };
@@ -32,6 +32,22 @@ describe("Users DAO integration", () => {
 
     const found = await usersDao.findLogin('test_user@example.com');
     expect(found).not.toBeNull();
+
+    await usersDao.del(created._id);
+    const all = await usersDao.readAll();
+    expect(all.length).toBe(0);
+  });
+
+  test("Read a user by ID", async () => {
+    await usersDao.deleteAll();
+
+    const newUser = { login: 'read_user@example.com', password: 'plaintext', permission: 1 };
+    const created = await usersDao.create(newUser);
+
+    const fetched = await usersDao.read(created._id);
+    expect(fetched).not.toBeNull();
+    expect(fetched.login).toBe('read_user@example.com');
+    expect(fetched.permission).toBe(1);
 
     await usersDao.del(created._id);
     const all = await usersDao.readAll();
