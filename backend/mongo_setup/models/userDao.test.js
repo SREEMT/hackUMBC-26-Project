@@ -1,7 +1,7 @@
 require('dotenv').config();
 const path = require('path');
 const dbcon = require(path.join(__dirname, './DbConnection'));
-const usersDao = require(path.join(__dirname, './users'));
+const usersDao = require(path.join(__dirname, './userDao'));
 
 describe("Users DAO integration", () => {
   beforeAll(async () => {

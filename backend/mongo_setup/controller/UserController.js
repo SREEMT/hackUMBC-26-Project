@@ -1,4 +1,4 @@
-const dao = require('../models/users'); 
+const dao = require('../models/userDao'); 
 const passUtil = require('../util/PasswordUtil');
 
 exports.getAll = async function(req, res){
