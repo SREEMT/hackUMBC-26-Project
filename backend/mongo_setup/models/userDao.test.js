@@ -1,56 +1,78 @@
-require('dotenv').config();
-const path = require('path');
-const dbcon = require(path.join(__dirname, './DbConnection'));
-const usersDao = require(path.join(__dirname, './userDao'));
+const dbcon = require('./DbConnection');
+const dao = require('./userDao');
 
-describe("Users DAO integration", () => {
-  beforeAll(async () => {
-    if (process.env.TESTDB_URI) {
-      dbcon.connect('test');
-    } else {
-      dbcon.connect();
-    }
-    const mongoose = require('mongoose');
-    await new Promise((resolve, reject) => {
-      const conn = mongoose.connection;
-      conn.once('open', resolve);
-      conn.on('error', reject);
-    });
-  }, 15000);
+beforeAll(async function(){ //Executed once before all tests
+    dbcon.connect('test');
+});
+afterAll(async function(){ // Executed once after all tests have ran
+    await dao.deleteAll();
+    dbcon.disconnect();
+});
+beforeEach(async function(){ // Executed before each test
+    await dao.deleteAll();
+});
+afterEach(function(){
+    //No need
+});
 
-  afterAll(async () => {
-    await dbcon.disconnect();
-  });
+test('Create new user test',async function(){
+    let newdata = {name:'Test',login:'test@test.com',
+                  password:'123456',permission:1};
+    let created = await dao.create(newdata);
+    let found = await dao.read(created._id);
+    
+    //assertions
+    expect(created._id).not.toBeNull(); // id cannot be null after creation
+    expect(created.login).toBe(found.login); //login should match with found
+});
 
-  test("Create and delete a user", async () => {
-    await usersDao.deleteAll();
+test('Delete User', async function(){
+    let newdata = {name:'Test',login:'test@test.com',
+                  password:'123456',permission:1};
+    let created = await dao.create(newdata); // create a new user
+    let deleted = await dao.del(created._id); // then we delete the user
+    let found = await dao.read(created._id); // we search for the deleted user
 
-    const newUser = { login: 'test_user@example.com', password: 'plaintext', permission: 2 };
-    const created = await usersDao.create(newUser);
+    expect(found).toBeNull(); // should be null since we deleted it
+    expect(deleted._id).toEqual(created._id); //the one we created should ne the same deleted
+    // Use "toEqual" for _id
+});
 
-    expect(created.login).toBe("test_user@example.com");
+test('Read All', async function(){
+    let newdata1 = {name:'Test 1',login:'test1@test.com',
+                  password:'123456',permission:1};
+    let newdata2 = {name:'Test 2',login:'test2@test.com',
+                  password:'123456',permission:1};
+    let newdata3 = {name:'Test 3',login:'test3@test.com',
+                  password:'123456',permission:1};
 
-    const found = await usersDao.findLogin('test_user@example.com');
-    expect(found).not.toBeNull();
+    await dao.create(newdata1);
+    await dao.create(newdata2);
+    await dao.create(newdata3); //create 3 users
 
-    await usersDao.del(created._id);
-    const all = await usersDao.readAll();
-    expect(all.length).toBe(0);
-  });
+    let lstUsers = await dao.readAll(); // read all users
 
-  test("Read a user by ID", async () => {
-    await usersDao.deleteAll();
+    expect(lstUsers.length).toBe(3); //should be a list of 3
+    expect(lstUsers[0].login).toBe("test1@test.com"); // 1st user login is test1 
+});
 
-    const newUser = { login: 'read_user@example.com', password: 'plaintext', permission: 1 };
-    const created = await usersDao.create(newUser);
+test('Find Login user', async function(){
+    let newdata = {name:'Test',login:'test@test.com',
+                  password:'123456',permission:1};
+    let created = await dao.create(newdata); // create a new user
 
-    const fetched = await usersDao.read(created._id);
-    expect(fetched).not.toBeNull();
-    expect(fetched.login).toBe('read_user@example.com');
-    expect(fetched.permission).toBe(1);
+    let logged = await dao.findLogin(newdata.login);
 
-    await usersDao.del(created._id);
-    const all = await usersDao.readAll();
-    expect(all.length).toBe(0);
-  });
+    expect(logged).not.toBeNull();
+    expect(logged._id).toEqual(created._id);
+    expect(logged.login).toEqual(created.login);
+});
+
+test('Login not found', async function(){
+    let newdata = {name:'Test',login:'test@test.com',
+                  password:'123456',permission:1};
+    let created = await dao.create(newdata); // create a new user
+
+    let badlogged = await dao.findLogin("not the login","654321"); //should not find
+    expect(badlogged).toBeNull();
 });
