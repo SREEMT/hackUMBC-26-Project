@@ -8,7 +8,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+
   get '/test_controller', to: 'test#index'
+  get "/num_controller", to: "num#index"
+  get "/image_controller", to: "image#show"
   
   mount ActionCable.server => '/cable'
 

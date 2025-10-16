@@ -116,7 +116,11 @@ docker-compose stop web
 ```bash
 docker-compose down
 ```
-
+### Delete server.pid file
+- Run if getting error where it says that server is already running, then start rails up again
+```bash
+docker-compose run --rm web rm -f tmp/pids/server.pid
+```
 ---
 
 This workflow ensures:
