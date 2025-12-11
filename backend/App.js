@@ -4,8 +4,14 @@ const session = require('express-session'); // generic session handling for expr
 const cors = require('cors'); // to avoid cors errors with react
 const memorystore = require('memorystore')(session);
 const lusca = require('lusca');
+const rateLimit = require('express-rate-limit');
 
-const app = express(); // creates a new Express Application
+// Rate limiter specifically for login route: max 5 attempts per 5 minutes per IP
+const loginLimiter = rateLimit({
+    windowMs: 5 * 60 * 1000, // 5 minutes
+    max: 5, // limit each IP to 5 login requests per windowMs
+    message: { error: 'Too many login attempts. Please try again later.' }
+});
 app.use(morgan('dev')); // For better logging, we use morgan
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -28,7 +34,7 @@ app.use(express.static('public_html'));
 const UserCont = require("./mongo_setup/controller/UserController");
 app.post('/user', UserCont.postCreateOrUpdate); // register new user
 app.get('/user', UserCont.getAll);
-app.post('/loginuser', UserCont.login); // login user
+app.post('/loginuser', loginLimiter, UserCont.login); // login user
 app.get('/loggeduser', UserCont.loggedUser); // fetches logged user (or null)
 app.get('/logout', UserCont.logout);
 app.get('/deluser/:id', UserCont.deleteOne); // deletes user
