@@ -3,6 +3,7 @@ const morgan = require('morgan'); // import morgan for logging
 const session = require('express-session'); // generic session handling for express
 const cors = require('cors'); // to avoid cors errors with react
 const memorystore = require('memorystore')(session);
+const lusca = require('lusca');
 
 const app = express(); // creates a new Express Application
 app.use(morgan('dev')); // For better logging, we use morgan
@@ -17,6 +18,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+// CSRF protection middleware
+app.use(lusca.csrf());
 
 // Serve static files (React build or public_html)
 app.use(express.static('public_html'));

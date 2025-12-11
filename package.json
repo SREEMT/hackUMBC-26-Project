@@ -7,7 +7,8 @@
     "express-session": "^1.18.2",
     "memorystore": "^1.6.7",
     "mongoose": "^8.18.2",
-    "morgan": "^1.10.1"
+    "morgan": "^1.10.1",
+    "lusca": "^1.7.0"
   },
   "jest": {
     "testPathIgnorePatterns": [
